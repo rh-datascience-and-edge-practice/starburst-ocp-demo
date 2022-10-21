@@ -1,10 +1,10 @@
-# chatbot-env-setup 
+# Starburst OCP Demo
 
-Deploy [Starburst Enterprise (SEP)](https://www.starburst.io/platform/starburst-enterprise/) to Openshift.
+Deploy [Starburst Enterprise (SEP)](https://www.starburst.io/platform/starburst-enterprise/) to Openshift. A fork of https://github.com/keklundrh/chatbot-env-setup
 
 ## Prerequisites:
 - Strimzi Operator (tested on 0.23.0) OR Red Hat Openshift Streams for Apache Kafka
-- Starburst Enterprise Helm Operator (tested on 354.0.0-ubi provided by Starburst Data) 
+- Starburst Enterprise Helm Operator (tested on 354.0.0-ubi provided by Starburst Data)
 - Starburst Hive
 - Postgres
 
@@ -57,10 +57,10 @@ Change the "Namespace" values in the Makefile and deploy/role_binding.yaml to po
 
     make install
 
-## Starburst license 
-A license, provided by Starburst, yields additional features in the SEP environment. Once receiving your license file from Starburst, you need to create a secret containing the license file and reference the secret in your custom yaml file. 
+## Starburst license
+A license, provided by Starburst, yields additional features in the SEP environment. Once receiving your license file from Starburst, you need to create a secret containing the license file and reference the secret in your custom yaml file.
 
-The following [documentation](https://docs.starburst.io/356-e/k8s/sep-config-examples.html?highlight=license#adding-the-license-file) describes the process. 
+The following [documentation](https://docs.starburst.io/356-e/k8s/sep-config-examples.html?highlight=license#adding-the-license-file) describes the process.
 
 ### Red Hat Marketplace Registration for Starburst License
 For Starburst licenses purchased through the Red Hat Marketplace, follow the setup instructions to register your cluster with the marketplace (recommended installation procedure with secret generation is on https://marketplace.redhat.com/en-us/workspace/clusters/add/register):
@@ -106,7 +106,7 @@ _Show Catalogs:_
     trino> SHOW CATALOGS;
         Catalog     
     -----------------
-    customer-domain 
+    customer-domain
     datalake        
     finance-domain  
     system          
@@ -122,7 +122,7 @@ _Show Schemas:_
     trino> SHOW SCHEMAS FROM tpch;
        Schema       
     --------------------
-    information_schema 
+    information_schema
     sf1                
     sf100              
     sf1000             
@@ -143,14 +143,14 @@ _Show Tables:_
     trino> SHOW TABLES FROM tpch.sf1;
     Table   
     ----------
-    customer 
-    lineitem 
+    customer
+    lineitem
     nation   
     orders   
     part     
-    partsupp 
+    partsupp
     region   
-    supplier 
+    supplier
     (8 rows)
 
     Query 20221020_175624_00007_fabka, FINISHED, 3 nodes
@@ -164,7 +164,7 @@ _Select Queries:_
     ---------+--------------------+------------------------------------------+-----------+-----------------+---------+------------+---------------------------------
     37501 | Customer#000037501 | Ftb6T5ImHuJ                              |         2 | 12-397-688-6719 | -324.85 | HOUSEHOLD  | pending ideas use carefully. exp
     37502 | Customer#000037502 | ppCVXCFV,4JJ97IibbcMB5,aPByjYL07vmOLO 3m |        18 | 28-515-931-4624 |  5179.2 | BUILDING   | express deposits. pending, regul
-    37503 | Customer#000037503 | Cg60cN3LGIUpLpXn0vRffQl8                 |        13 | 23-977-571-7365 | 1862.32 | BUILDING   | ular deposits. furiously ironic 
+    37503 | Customer#000037503 | Cg60cN3LGIUpLpXn0vRffQl8                 |        13 | 23-977-571-7365 | 1862.32 | BUILDING   | ular deposits. furiously ironic
     (3 rows)
 
 
