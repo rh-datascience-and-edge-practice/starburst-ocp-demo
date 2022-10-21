@@ -1,0 +1,101 @@
+apiVersion: charts.starburstdata.com/v1alpha1
+kind: StarburstHive
+metadata:
+  name: starbursthive-sample
+spec:
+  image:
+    repository: registry.connect.redhat.com/starburst/hive
+    tag: 354.0.0-ubi
+    pullPolicy: IfNotPresent
+  registryCredentials:
+    enabled: true
+    registry: registry.connect.redhat.com
+    username:
+    password:
+  database:
+    type: internal
+    internal:
+      databaseName: hive
+      databasePassword: HivePass1234
+      databaseUser: hive
+      driver: org.postgresql.Driver
+      env:
+        - name: POSTGRESQL_DATABASE
+          value: "hive"
+        - name: POSTGRESQL_USER 
+          value: "hive"
+        - name: POSTGRESQL_PASSWORD
+          value: "HivePass1234"
+      envFrom: []
+      image:
+        pullPolicy: IfNotPresent
+        repository: "registry.redhat.io/rhscl/postgresql-96-rhel7"
+        tag: 'latest'
+      port: 5432
+      resources:
+        limits:
+          cpu: 1
+          memory: 1Gi
+        requests:
+          cpu: 1
+          memory: 1Gi
+      volume:
+        emptyDir: {}
+  resources:
+    requests:
+      memory: "1Gi"
+      cpu: 1
+    limits:
+      memory: "1Gi"
+      cpu: 1
+  expose:
+    clusterIp:
+      name: hive
+      ports:
+        http:
+          port: 9083
+    ingress:
+      annotations: {}
+      ingressName: hive-ingress
+      path: /
+      serviceName: hive
+      servicePort: 9083
+      tls:
+        enabled: true
+    nodePort:
+      name: hive
+      ports:
+        http:
+          nodePort: 30083
+          port: 9083
+    type: clusterIp
+  additionalVolumes: []
+  affinity: {}
+  deploymentAnnotations: {}
+  env: []
+  envFrom: []
+  extraArguments: []
+  heapSizePercentage: 85
+  initFile: ''
+  nodeSelector: {}
+  objectStorage:
+    awsS3:
+      endpoint:
+      accessKey:
+      secretKey:
+      pathStyleAccess: true
+    azure:
+      abfs:
+        authType: accessKey
+  podAnnotations: {}
+  resources:
+    limits:
+      cpu: 1
+      memory: 1Gi
+    requests:
+      cpu: 1
+      memory: 1Gi
+  starburst-charts-common:
+    global: {}
+  tolerations: []
+

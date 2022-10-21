@@ -1,0 +1,61 @@
+---
+- name:               Deploy starburst prequisites
+  hosts:              localhost
+  connection:         local
+  gather_facts: no
+
+  vars_prompt:
+    - name:           ocp_username
+      prompt:         "Please provide Openshift Login username"
+      default:        opentlc-mgr
+      private:        no
+    - name:           ocp_password
+      prompt:         "Please provide your Openshift Login password"
+      default:        r3dh4t1!
+      private:        yes
+    - name:           ocp_url
+      prompt:         "Please provide your Openshift URL"
+      default:        https://api.cluster-8h7kp.8h7kp.sandbox1447.opentlc.com:6443
+      private:        no
+    - name:           starburst_namespace
+      prompt:         "Please provide a namespace to work in"
+      default:        starburst
+      private:        no
+
+  tasks:
+
+  # Login to Openshift using oc client
+  - name: Login to Openshift
+    ansible.builtin.shell:
+      cmd: oc login {{ocp_url}} --username={{ocp_username}} --password={{ocp_password}} --insecure-skip-tls-verify
+      
+  # Create namespace
+  - name: Create namespace
+    kubernetes.core.k8s:
+      api_version: v1
+      kind: Namespace
+      name: "{{ starburst_namespace }}"
+      state: present
+
+  # Use these tasks for clusters without OperatorHub Preinstalled
+  # - name: Download OLM crds (for clusters without OperatorHub Installed)
+  #   ansible.builtin.get_url:
+  #     url: https://raw.githubusercontent.com/operator-framework/operator-lifecycle-manager/master/deploy/upstream/quickstart/crds.yaml
+  #     dest: ./remote-objects/crds.yaml
+  #     mode: '0775'
+
+  # - name: Download Operator Lifecycle Manager (for clusters without OperatorHub Installed)
+  #   ansible.builtin.get_url:
+  #     url: https://raw.githubusercontent.com/operator-framework/operator-lifecycle-manager/master/deploy/upstream/quickstart/olm.yaml
+  #     dest: ./remote-objects/olm.yaml
+  #     mode: '0775'
+
+  - name: Apply starburst subscription.
+    kubernetes.core.k8s:
+      state: present
+      src: ./objects/starburst-operator-subscription.yaml
+
+  - name: Apply Strimzi subscription.
+    kubernetes.core.k8s:
+      state: present
+      src: ./objects/strimzi-operator-subscription.yaml

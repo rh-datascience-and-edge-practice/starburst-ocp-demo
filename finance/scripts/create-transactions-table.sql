@@ -1,0 +1,7 @@
+
+CREATE TABLE IF NOT EXISTS transactions (
+	id 		INTEGER NOT NULL PRIMARY KEY,
+	customerId	INTEGER NOT NULL,
+	transDate	DATE,
+	amount		NUMERIC(5, 2) NOT NULL);
+
